@@ -1,0 +1,5 @@
+**Is it easy to test the Main class? Why?**
+
+Not really. The problem is that Main mixes the program logic with the user interaction: it reads input from the console with a Scanner and prints the results with System.out. Unit tests are supposed to run automatically, without anyone typing anything, so to test Main we'd have to fake the keyboard input and capture whatever gets printed on the screen. On top of that, the methods don't return anything we can check with assertEquals, so we'd end up comparing printed text. That makes the tests fragile, because changing a single message in the menu would break them even if the logic still worked fine.
+
+That's why we put all the real logic in the Library class, which is easy to test with JUnit, and kept Main as simple as possible. It just reads what the user types and shows the results. If we really wanted to test Main, we could pass it the input and output as parameters (a Scanner and a PrintStream) instead of using System.in and System.out directly. That way, the tests could feed it fake input and check the output.
